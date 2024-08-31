@@ -6,6 +6,9 @@ import consultarFilmesService from "../services/filme/consultarFilmesService.js"
 import ConsultarFilmePorIdService from "../services/filme/consultarFilmePorIdService.js";
 import alterarFilmeService from "../services/filme/alterarFilmeService.js";
 import deletarFilmeService from "../services/filme/deletarFilmeService.js";
+import alterarCapaFilmeService from "../services/filme/alterarCapaFilmeService.js";
+
+import multer from "multer";
 
 //inserir filme
 endpoints.post('/filme', async (req, resp) => {
@@ -91,6 +94,26 @@ endpoints.delete('/filme/:id', async (req, resp) => {
     } catch (err) {
         logErro(err)
         resp.status(400).send(criarErro(err))
+    }
+})
+
+let uploadCapa = multer({ dest: './storage/capa' });
+
+endpoints.put('/filme/:id/imagem', uploadCapa.single('imagem'), async (req, resp) => { 
+    try {
+        // entradas
+        let id = req.params.id;
+        let caminhoImagem = req.file.path;
+
+        // processamento (service)
+        await alterarCapaFilmeService(id, caminhoImagem);
+
+        // saída response
+        resp.sendStatus(204);
+    }
+    catch (err) {
+        logErro(err);
+        resp.status(400).send(criarErro(err));
     }
 })
 
