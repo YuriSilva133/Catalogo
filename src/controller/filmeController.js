@@ -1,10 +1,11 @@
+import { Router } from "express";
+const endpoints = Router()
+
 import salvarFilmeService from "../services/filme/salvarFilmeService.js";
 import consultarFilmesService from "../services/filme/consultarFilmesService.js";
 import ConsultarFilmePorIdService from "../services/filme/consultarFilmePorIdService.js";
 import alterarFilmeService from "../services/filme/alterarFilmeService.js";
-
-import { Router } from "express";
-const endpoints = Router()
+import deletarFilmeService from "../services/filme/deletarFilmeService.js";
 
 //inserir filme
 endpoints.post('/filme', async (req, resp) => {
@@ -70,6 +71,22 @@ endpoints.put('/filme/:id', async (req, resp) => {
         // processamento (service)
         await alterarFilmeService(filmeObj, id)
 
+        resp.status(204).send()
+    } catch (err) {
+        logErro(err)
+        resp.status(400).send(criarErro(err))
+    }
+})
+
+endpoints.delete('/filme/:id', async (req, resp) => {
+    try {
+        // Entrada
+        let id = req.params.id;
+
+        // Processamento
+        await deletarFilmeService(id)
+
+        // Saida
         resp.status(204).send()
     } catch (err) {
         logErro(err)

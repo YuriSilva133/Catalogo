@@ -1,6 +1,6 @@
 import con from './connection.js'
 
-//inserir um filme
+//INSERT
 export async function salvarFilme(filme) {
     let comando = `
     INSERT INTO tb_filme(nm_filme, ds_sinopse, vl_avaliacao, dt_lancamento, bt_disponivel)
@@ -14,7 +14,7 @@ export async function salvarFilme(filme) {
     return idFilme;
 }
 
-//buscar um filme pelo nome
+//SELECT
 export async function consultarFilmes(nome) {
     let comando = `
         SELECT  id_filme,
@@ -31,6 +31,7 @@ export async function consultarFilmes(nome) {
     return registros;
 }
 
+//SELECT
 export async function consultarFilmePorId(id) {
     let comando = `
         SELECT  id_filme            id,
@@ -49,6 +50,7 @@ export async function consultarFilmePorId(id) {
     return registros;
 }
 
+//SELECT
 export async function consultarFilmePorNome(nome) {
     let comando = `
         SELECT  id_filme            id,
@@ -65,6 +67,7 @@ export async function consultarFilmePorNome(nome) {
     return registros;
 }
 
+//UPDATE
 export async function alterarFilme(filme, id) {
     let comando = `
         UPDATE tb_filme
@@ -88,3 +91,16 @@ export async function alterarFilme(filme, id) {
     
     return linhasAfetadas;
 }
+
+//DELETE
+export async function deletarFilme(id){
+    let comando = `
+        DELETE FROM tb_filme WHERE id_filme = ?
+    `
+    let resposta = await con.query(comando, [id]);
+    let info = resposta[0];
+
+    let linhasAfetadas = info.affectedRows;
+    return linhasAfetadas;
+}
+
