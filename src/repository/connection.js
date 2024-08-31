@@ -24,4 +24,4 @@ let con = await mysql.createConnection({
 
 console.log('conexão com BD estabelecida');
 
-export default con;
+export default con; 

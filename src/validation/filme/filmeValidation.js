@@ -1,4 +1,5 @@
 
+
 //verifica se há parametros undefined ou errados
 export function validarNovoFilme(filmeObj) {
     if (!filmeObj.nome) 
@@ -16,3 +17,14 @@ export function validarNovoFilme(filmeObj) {
     else if (filmeObj.disponivel == undefined) 
         throw new Error("Parametro disponivel do filme é obrigatório");
 }
+
+export function validarFilmeUnico(registros) {
+    if(registros.length == 0)
+        throw new Error('Filme não encontrado');
+}
+
+export function validarFilmeIgual(registros) {
+    if(registros.length > 0)
+        throw new Error('Este filme já foi cadastrado')
+}
+ 
